@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Service Worker and Manifest Test</title>
+  <!-- Liên kết với manifest.json -->
+  <link rel="manifest" href="https://severside-json.github.io/notification/notifications.json">
+</head>
+<body>
+  <h1>Service Worker and Manifest Test</h1>
+  <p>This page is for testing Service Worker and Web App Manifest integration.</p>
+
+  <script>
+    // Đăng ký Service Worker
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('https://severside-json.github.io/notification/sw.js')
+        .then(function(registration) {
+          console.log('Service Worker registered with scope:', registration.scope);
+        })
+        .catch(function(error) {
+          console.log('Service Worker registration failed:', error);
+        });
+    } else {
+      console.log('Service Workers are not supported.');
+    }
+  </script>
+</body>
+</html>
