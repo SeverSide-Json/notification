@@ -1,0 +1,18 @@
+{
+  "notifications": [
+    {
+      "id": 1,
+      "title": "Chào mừng bạn!",
+      "body": "Cảm ơn bạn đã sử dụng ứng dụng của chúng tôi.",
+      "icon": "https://severside-json.github.io/notification/icon-192x192.png",
+      "timestamp": "2023-09-15T10:00:00Z"
+    },
+    {
+      "id": 2,
+      "title": "Ưu đãi đặc biệt",
+      "body": "Giảm giá 20% cho tất cả sản phẩm trong tuần này!",
+      "icon": "https://severside-json.github.io/notification/icon-192x192.png",
+      "timestamp": "2023-09-16T14:30:00Z"
+    }
+  ]
+}
