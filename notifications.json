@@ -1,7 +1,6 @@
 {
   "name": "Ladipage PWA",
   "short_name": "PWA",
-  "description": "Ứng dụng Progressive Web App cho Ladipage",
   "start_url": "https://preview.ldpdemo.com/test-code",
   "display": "standalone",
   "background_color": "#ffffff",
