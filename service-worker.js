@@ -1,70 +1,32 @@
-// Tên cache của bạn
-const CACHE_NAME = 'my-pwa-cache-v1';
-
-// Các tài nguyên cần được cache
-const urlsToCache = [
-  '/', // Trang chủ
-  '/?path=manifest.json', // Manifest
-  '/?path=style.css', // Tệp CSS
-  '/images/icon-192x192.png', // Biểu tượng ứng dụng
-  '/images/icon-512x512.png' // Biểu tượng lớn hơn
-];
-
-// Khi service worker được cài đặt (install)
-self.addEventListener('install', (event) => {
-  // Đợi cho đến khi cache được mở và các tệp được thêm vào cache
+self.addEventListener('install', function(event) {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then((cache) => {
-        console.log('Opened cache');
-        return cache.addAll(urlsToCache);
-      })
+    caches.open('ladipage-pwa-cache').then(function(cache) {
+      return cache.addAll([
+        '/',
+        'https://preview.ldpdemo.com/test-code',
+        'https://severside-json.github.io/notification/notifications.json',
+        'https://severside-json.github.io/notification/icon-192x192.png',
+      ]);
+    })
   );
+  console.log('Service Worker Installed');
 });
 
-// Khi service worker kích hoạt (activate)
-self.addEventListener('activate', (event) => {
-  // Xóa các cache cũ nếu tên cache khác với cache hiện tại
-  event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames.map((cacheName) => {
-          if (cacheName !== CACHE_NAME) {
-            console.log('Old cache removed:', cacheName);
-            return caches.delete(cacheName);
-          }
-        })
-      );
+self.addEventListener('fetch', function(event) {
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      return response || fetch(event.request);
     })
   );
 });
 
-// Đáp ứng các yêu cầu mạng
-self.addEventListener('fetch', (event) => {
-  event.respondWith(
-    caches.match(event.request)
-      .then((response) => {
-        // Nếu tài nguyên đã có trong cache, trả về từ cache
-        if (response) {
-          return response;
-        }
-        // Nếu không có trong cache, tải tài nguyên từ mạng
-        return fetch(event.request).then((response) => {
-          // Kiểm tra nếu response là hợp lệ
-          if (!response || response.status !== 200 || response.type !== 'basic') {
-            return response;
-          }
-
-          // Sao chép response vào cache
-          const responseToCache = response.clone();
-
-          caches.open(CACHE_NAME)
-            .then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-
-          return response;
-        });
-      })
+self.addEventListener('push', function(event) {
+  const data = event.data ? event.data.json() : { title: 'Default title', body: 'Default body' };
+  const options = {
+    body: data.body,
+    icon: 'https://raw.githubusercontent.com/username/repo/main/icons/icon-192x192.png',
+  };
+  event.waitUntil(
+    self.registration.showNotification(data.title, options)
   );
 });
