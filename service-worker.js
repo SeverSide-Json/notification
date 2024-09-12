@@ -2,7 +2,7 @@ self.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open('ladipage-pwa-cache').then(function(cache) {
       return cache.addAll([
-        '/test-code', // Đường dẫn chính xác đến trang gốc của bạn
+        '/index-github.html', // Đường dẫn chính xác đến trang gốc của bạn
         'https://severside-json.github.io/notification/notifications.json', // Đường dẫn đến manifest
         'https://severside-json.github.io/notification/icon-192x192.png', // Icon
       ]);
