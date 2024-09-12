@@ -12,16 +12,21 @@
   <p>This page is for testing Service Worker and Web App Manifest integration.</p>
 
   <script>
-    if('serviceWorker' in navigator){
-        // Register service worker
-       navigator.serviceWorkerContainer
-      .register('service-worker.js')
-      .then(function(reg){
-          console.log("SW registration succeeded. Scope is "+reg.scope);
-        }).catch(function(err){
-          console.error("SW registration failed with error "+err);
-        });
-      }
+    if ("serviceWorker" in navigator) {
+  // Register a service worker hosted at the root of the
+  // site using the default scope.
+  navigator.serviceWorker.register("./service-worker.js").then(
+    (registration) => {
+      console.log("Service worker registration succeeded:", registration);
+    },
+    (error) => {
+      console.error(`Service worker registration failed: ${error}`);
+    },
+  );
+} else {
+  console.error("Service workers are not supported.");
+}
+
   </script>
 </body>
 </html>
